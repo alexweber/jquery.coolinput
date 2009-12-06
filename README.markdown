@@ -8,6 +8,6 @@ CoolInput is a ridiculously straightforward and lightweight input-hint plugin fo
 
 ## License
 
-The Live Query plugin is dual licensed *(just like jQuery)* under the [MIT](http://www.opensource.org/licenses/mit-license.php) and [GPL](http://www.opensource.org/licenses/gpl-license.php) licenses.
+The CoolInput plugin is Distributed under the terms of the [GNU General Public License](http://www.opensource.org/licenses/http://www.gnu.org/licenses/gpl-3.0.html).
 
 Copyright (c) 2009 [Alex Weber](http://alexweber.com.br)
