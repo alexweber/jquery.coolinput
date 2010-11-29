@@ -3,7 +3,7 @@
 CoolInput is a ridiculously straightforward and lightweight input-hint plugin for jQuery.
 
 * Requires jQuery 1.3+
-* Docs: [http://www.alexweber.com.br/jquery/coolinput](http://www.alexweber.com.br/jquery/coolinput)
+* Docs: [http://code.alexweber.com.br/jquery/coolinput](http://code.alexweber.com.br/jquery/coolinput)
 
 
 ## License
