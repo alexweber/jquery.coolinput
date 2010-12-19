@@ -1,101 +1,133 @@
 /**
  * CoolInput Plugin
- *
- * @version 1.4 (05/09/2009)
+ * 
+ * @version 1.5 (10/09/2009)
  * @requires jQuery v1.2.6+
  * @author Alex Weber <alexweber.com.br>
- * @copyright Copyright (c) 2008-2009, Alex Weber
+ * @author Evan Winslow <ewinslow@cs.stanford.edu> (v1.5)
+ * @copyright Copyright (c) 2008-2010, Alex Weber
  * @see http://remysharp.com/2007/01/25/jquery-tutorial-text-box-hints/
- *
+ * 
  * Distributed under the terms of the GNU General Public License
  * http://www.gnu.org/licenses/gpl-3.0.html
- *
  */
 
 /**
- * This plugin enables predefined text to be applied to input fields when they are empty + some nice customization options
+ * Ideally whenever the hint is being displayed, blurClass is present and whenever
+ * the hint is not being displayed, blurClass is not present. This is not actually
+ * the case, however, since javascript can set the value of the input and the 
+ * blurClass will not be removed in this case.
+ * 
+ * There is no onchange event fired when values are altered with javascript.
+ * Because of this, it is impossible to tell when javascript has changed the value.
+ * To deal with this, we will check whether the value is equal to the hint, and whether
+ * the blurClass is present when we are deciding whether to clear the value.  This takes
+ * care of every case except when javascript is used to set the value equal to the hint.
+ * 
+ * In this case, we will simply have to ask the developer using CoolInput to manually
+ * remove blurClass if he is going to change values with javascript.  However, we will
+ * still retain the check for hint-equivalence in an attempt to correctly handle the
+ * majority of cases by default.
+ * 
+ * Suggested test cases for 1.5:
+ * Testing Functional Correctness (does the user experience the right functionality)
+ * - Submit without typing in any value, hints should clear.
+ * - Submit without typing in any value, then type in values, values should stay.
+ * - Set the value with javascript, then submit, value should stay.
+ * - Type in a value which is equal to the hint and submit, the value should stay.
+ * - Set the value not equal to the hint with javascript and submit, the value should stay.
+ * 
+ * Testing Semantic Correctness (does the state of the input remain consistent)
+ * - Blur the input, blurClass should be present.
+ * - Focus the input, blurClass should not be present.
+ * - Submit without typing in any value, blurClass should not be present.
+ * - Type in a value which is equal to the hint, blurClass should not be present.
  *
- * @example $("#myinputbox").coolinput();
- * @desc Applies coolinput functionality to the input with id="myinputbox" with default options
- *
- * @example $("input:search").coolinput({
- *		blurClass: 'myclass',
- *		iconClass: 'search',
- *		clearOnSubmit: true
- *	});
- * @desc Applies coolinput functionality to the selected input boxes with custom options
- *
- * @param User-specified text hint
- * @param Source for the input hint (if not user specified)
- * @param Class to apply when blurred
- * @param Additional class to be applied
- * @param Clear input text on submit if it remains the default value?
- *
- * @return jQuery Object
- * @type jQuery
- *
- * @name jQuery.fn.coolinput
- * @cat Plugins/Forms
+ * Changes: (look for inline comments in code below)
+ * 	1.5.1 - In 1.4 this line used to be if(d.hasClass(c.blurClass)), however this 
+ * was changed to (d.val() == "") because 1) using javascript, the value of 
+ * an input can be changed without focusing the input (therefore without removing 
+ * the blurClass, and 2) it was inconsistent with the way the hint is cleared on 
+ * focus. The criteria for clearing input values is consistent now.
+ * 
+ * 	1.5.2 - This line lacked the removeClass directive in 1.4.  It has been added
+ * to keep the states consistent. (i.e. the blurClass should only be present on
+ * the input when the input is displaying the hint.
+ * 
+ * 	1.5.3 - These lines lacked the hasClass check in 1.4.  This caused CoolInput
+ * to think that user input which was identical to the hint was in fact the hint.
+ * Now, users should be able to type in input which is identical to the hint and
+ * not have it cleared on form submission or input focus.
+ * 
+ * 	1.5.4 - This variable was added as a space optimization.  c.blurClass was
+ * appearing enough times that it made it worth it to declare another variable.
+ * 
+ * 	1.5.5 - This is a feature addition for customizability.  Suppose the user
+ * wants to use coolinput not just as a hint, but to get people "jumpstarted"
+ * on their input.  For example, a url input which suggests "http://".  You
+ * wouldn't want this to be cleared on focus, but probably would want it restored
+ * on blur if the user leaves the input blank.
+ * 
+ * 	1.5.6.1 - This is a feature addition for customizability. Suppose the user
+ * wants the hint to appear only the first time people see their input.  This seems
+ * like a rather uncommon case, but the implementation was so trivial I figured it
+ * was worth making that 100th person out of 100 happy.
+ * 
+ * 	1.5.6.2 - This used to be d.blur(), but had to be changed to check for empty
+ * input because the blur handler is optional now.
+ * 
+ * 	1.5.7 - There were identical repeats of anonymous functions appearing in the
+ * code, which I decided to abstract for the sake of good practice and for size
+ * optimization.
  */
-
-(function($){
-	$.fn.coolinput = function(options) {
-		// default options
-		// @note NEW in 1.4: 'hint' option can be specified to override the default hint
-		var settings = {
-			hint : null,			// manually specify a hint
-			source	  : 'title', 	// attribute to be used as source for default text
-			blurClass : 'blur', 	// class to apply to blurred input elements
-			iconClass : false, 		// specifies background image class, if any
-			clearOnSubmit : true  	// clears default text on submit
+;(function($) {
+	$.fn.coolinput = function(b) {
+		/* Default options */
+		var c = {
+			hint:null,
+			source:"title",
+			blurClass:"blur",
+			iconClass:false,
+			clearOnSubmit:true,
+			clearOnFocus:true, /* 1.5.5 */
+			persistent:true /* 1.5.6.1 */
 		};
-	
-		// if any options are passed, overwrite defaults
-		// @note NEW in 1.4: if a string is passed instead of an options object it is used as the hint
-		if(options && typeof options == 'object'){
-			$.extend(settings, options);
-		}else{
-			settings.hint = options;
-		}
-	
-		return this.each(function (){
-			// cache 'this'
-			var container = $(this);
-			// get predefined text to be used as filler when blurred
-			// @note NEW in 1.4: if a hint is manually specified, it overrides the 'source' option
-			var text = settings.hint || container.attr(settings.source);
-			// if we have some text to work with proceed
-			if (text){ 
-				// on blur, set value to pre-defined text if blank
-				container.blur(function (){
-					if (container.val() == ''){
-						container.val(text).addClass(settings.blurClass);
-					}
-				})
-				
-				// on focus, set value to blank if filled with pre-defined text
-				.focus(function (){
-					if (container.val() == text){
-						container.val('').removeClass(settings.blurClass);
-					}
-				});
-				
-				// clear the pre-defined text when form is submitted
-				if(settings.clearOnSubmit){
-				  container.parents('form:first').submit(function(){
-					  if (container.hasClass(settings.blurClass)){
-						  container.val('');
-					  }
-				  });
-				}
-				// if a background image class is specified apply it
-				if(settings.iconClass){
-					container.addClass(settings.iconClass);
-				}
-				
-				// initialize all inputs to blurred state
-				container.blur();
+		
+		if(b && typeof b == "object")
+			$.extend(c,b);
+		else
+			c.hint = b;
+		
+		return this.each(function() {
+			var d = $(this);
+			var e = c.hint || d.attr(c.source);
+			var f = c.blurClass; /* 1.5.4 */
+			
+			function g() { /* 1.5.7 */
+				if(d.val() == "")
+					d.val(e).addClass(f)
 			}
-		});
-	};
+			
+			function h() { /* 1.5.7 */
+				if(d.val() == e && d.hasClass(f)) /* 1.5.3 */
+					d.val("").removeClass(f)
+			}
+			
+			if(e) {
+				if(c.persistent) /* 1.5.6.1 */
+					d.blur(g); /* 1.5.7 */
+				
+				if(c.clearOnFocus) /* 1.5.5 */
+					d.focus(h); /* 1.5.7 */
+				
+				if(c.clearOnSubmit)
+					d.parents("form:first").submit(h); /* 1.5.7 */
+				
+				if(c.iconClass)
+					d.addClass(c.iconClass);
+				
+				g() /* 1.5.6.2, 1.5.7 */
+			}
+		})
+	}
 })(jQuery);
