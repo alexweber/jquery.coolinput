@@ -13,4 +13,4 @@ In short, it just works!
 
 CoolInput is Distributed under the terms of the [GNU General Public License](http://www.gnu.org/licenses/gpl-3.0.html).
 
-Copyright (c) 2008-2010 [Alex Weber](http://alexweber.com.br)
+Copyright (c) 2008-2011 [Alex Weber](http://alexweber.com.br)
