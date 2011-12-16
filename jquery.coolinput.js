@@ -25,7 +25,7 @@
  *   a url input which suggests "http://".  You wouldn't want this to be cleared on
  *   focus, but probably would want it restored on blur if the user leaves the input blank.
  * 
- * - Added persisten extra param. Suppose the user wants the hint to appear only
+ * - Added persistent extra param. Suppose the user wants the hint to appear only
  *   the first time people see their input.  This seems like a rather uncommon case,
  *   but the implementation was so trivial I figured it was worth making that 100th 
  *   person out of 100 happy.
