@@ -9,6 +9,10 @@ In short, it just works!
 * Docs: [http://code.alexweber.com.br/jquery/coolinput](http://code.alexweber.com.br/jquery/coolinput)
 
 
+## Authors
+
+CoolInput was created by Alex Weber and a significant contribution was made by Evan Winslow in version 1.5
+
 ## License
 
 CoolInput is Distributed under the terms of the [GNU General Public License](http://www.gnu.org/licenses/gpl-3.0.html).
