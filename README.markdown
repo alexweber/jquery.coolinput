@@ -15,6 +15,6 @@ CoolInput was created by Alex Weber and a significant contribution was made by E
 
 ## License
 
-CoolInput is Distributed under the terms of the [GNU General Public License](http://www.gnu.org/licenses/gpl-3.0.html).
+CoolInput is dual-licensed under the [MIT License](http://www.opensource.org/licenses/mit-license.php) and the [GNU General Public License](http://www.gnu.org/licenses/gpl-3.0.html).
 
-Copyright (c) 2008-2011 [Alex Weber](http://alexweber.com.br)
+Copyright (c) 2008-2012 [Alex Weber](http://alexweber.com.br)

@@ -1,6 +1,6 @@
 /**
  * CoolInput Plugin
- * 
+ *
  * @version 2.0 (15/12/2011)
  * @requires jQuery v1.2.6+
  * @author Alex Weber <alexweber.com.br>
@@ -8,8 +8,9 @@
  * @copyright Copyright (c) 2008-2011, Alex Weber
  * @see http://code.alexweber.com.br/jquery/coolinput/
  * @see http://remysharp.com/2007/01/25/jquery-tutorial-text-box-hints/
- * 
- * Distributed under the terms of the GNU General Public License
+ *
+ * Dual licensed under the MIT and GPLv3 Licenses
+ * http://www.opensource.org/licenses/mit-license.php
  * http://www.gnu.org/licenses/gpl-3.0.html
  *
  * Recent Changelog
@@ -24,12 +25,12 @@
  *   just as a hint, but to get people "jumpstarted" on their input.  For example,
  *   a url input which suggests "http://".  You wouldn't want this to be cleared on
  *   focus, but probably would want it restored on blur if the user leaves the input blank.
- * 
+ *
  * - Added persistent extra param. Suppose the user wants the hint to appear only
  *   the first time people see their input.  This seems like a rather uncommon case,
- *   but the implementation was so trivial I figured it was worth making that 100th 
+ *   but the implementation was so trivial I figured it was worth making that 100th
  *   person out of 100 happy.
- * 
+ *
  */
 ;(function($) {
 	$.fn.coolinput = function(b) {
@@ -44,33 +45,33 @@
 			persistent:true,
 			useHtml5:true
 		};
-		
+
 		if (b && typeof b == "object") {
 			$.extend(c,b);
 		} else {
 			c.hint = b;
 		}
-		
+
 		// check for HTML5 placeholder attribute support
 		c.html5 = c.useHtml5 && ('placeholder' in document.createElement('input'));
-		
+
 		return this.each(function() {
 			var d = $(this),
 			e = c.hint || d.attr(c.source),
 			f = c.blurClass;
-			
+
 			function g() {
 				if (d.val() == "") {
 					d.val(e).addClass(f);
 				}
 			}
-			
+
 			function h() {
 				if (d.val() == e && d.hasClass(f)) {
 					d.val("").removeClass(f);
 				}
 			}
-			
+
 			if (e) {
 				// only use coolinput if we don't have HTML5 placeholder support
 				if (!c.html5) {
