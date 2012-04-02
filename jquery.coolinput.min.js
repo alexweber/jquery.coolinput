@@ -1,7 +1,7 @@
 /**
  * CoolInput Plugin
  *
- * @version 2.0 (15/12/2011)
+ * @version 2.0.1 (02/04/2012)
  * @requires jQuery v1.2.6+
  * @author Alex Weber <alexweber.com.br>
  * @author Evan Winslow <ewinslow@cs.stanford.edu> (v1.5)
