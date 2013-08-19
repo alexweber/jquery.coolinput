@@ -43,7 +43,8 @@
 			clearOnSubmit:true,
 			clearOnFocus:true,
 			persistent:true,
-			useHtml5:true
+			useHtml5:true,
+			removeSource:true
 		};
 
 		if (b && typeof b == "object") {
@@ -59,6 +60,9 @@
 			var d = $(this),
 			e = c.hint || d.attr(c.source),
 			f = c.blurClass;
+			
+			if (c.removeSource&&!c.hint)
+				d.removeAttr(c.source);)
 
 			function g() {
 				if (d.val() == "") {
