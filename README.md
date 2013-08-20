@@ -7,6 +7,11 @@ In short, it just works!
 
 * Requires jQuery 1.2.6+
 
+## Version 2.1
+
+This version introduces one backwards-incompatible change: the "iconClass" option has been renamed to "extraClass".
+Please update your code!
+
 ## Example
 
 ```javascript
