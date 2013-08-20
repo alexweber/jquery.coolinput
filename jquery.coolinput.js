@@ -16,15 +16,15 @@
   $.fn.coolinput = function(b) {
     /* Default options */
     var c = {
-      hint:null,
-      source:"title",
-      blurClass:"blur",
-      iconClass:false,
-      clearOnSubmit:true,
-      clearOnFocus:true,
-      persistent:true,
-      useHtml5:true,
-      removeSource:true
+      useHtml5:true, // Use HTML5's native placeholders when possible.
+      hint:null, // Input hint text.
+      source:"title", // Source attribute for input hint text. Overrides "hint".
+      removeSource:true, // Remove the source attribute after reading its value.
+      blurClass:"blur", // Add a class to the input when it loses focus.
+      iconClass:false, // Extra classes to ad to the input.
+      clearOnSubmit:true, // Clear the input hint when the form is submitted (so an empty value is submitteed).
+      clearOnFocus:true, // Clear the input hint when the input is focused.
+      persistent:true // If set to false, the input hint will only be visible the first time an input is seen.
     };
 
     if (b && typeof b == "object") {
@@ -33,7 +33,7 @@
       c.hint = b;
     }
 
-    // check for HTML5 placeholder attribute support
+    // Check for HTML5 placeholder attribute support.
     c.html5 = c.useHtml5 && ('placeholder' in document.createElement('input'));
 
     return this.each(function() {
