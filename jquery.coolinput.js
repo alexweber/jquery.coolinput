@@ -42,7 +42,7 @@
       f = c.blurClass;
       
       if (c.removeSource && !c.hint) {
-        d.removeAttr(c.source));
+        d.removeAttr(c.source);
       }
 
       function g() {
