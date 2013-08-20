@@ -21,7 +21,7 @@
       source:"title", // Source attribute for input hint text. Overrides "hint".
       removeSource:true, // Remove the source attribute after reading its value.
       blurClass:"blur", // Add a class to the input when it loses focus.
-      iconClass:false, // Extra classes to ad to the input.
+      extraClass:false, // Extra classes to ad to the input.
       clearOnSubmit:true, // Clear the input hint when the form is submitted (so an empty value is submitteed).
       clearOnFocus:true, // Clear the input hint when the input is focused.
       persistent:true // If set to false, the input hint will only be visible the first time an input is seen.
@@ -71,8 +71,8 @@
             d.parents("form:first").submit(h);
           }
 
-          if (c.iconClass) {
-            d.addClass(c.iconClass);
+          if (c.extraClass) {
+            d.addClass(c.extraClass);
           }
 
           g();
