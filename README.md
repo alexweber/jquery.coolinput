@@ -10,20 +10,23 @@ In short, it just works!
 ## Example
 
 ```javascript
-// Simplest call, uses defaults.
+// Simplest call, will use text from input's "title" attribute for hint.
 $('.selector').coolinput();
 
-// Most complex call, overrides all defaults.
+// You can also manually specify the hint's text.
+$('.selector').coolinput('foo');
+
+// You can also pass an object to override a few options.
 $('.selector').coolinput({
   useHtml5:true, // Use HTML5's native placeholders when possible.
   hint:null, // Input hint text.
   source:"title", // Source attribute for input hint text. Overrides "hint".
-  removeSource:true // Remove the source attribute after reading its value.
+  removeSource:true, // Remove the source attribute after reading its value.
   blurClass:"blur", // Add a class to the input when it loses focus.
-  iconClass:false, // Add an extra class to the input, used to add icons.
+  extraClass:false, // Extra classes to ad to the input.
   clearOnSubmit:true, // Clear the input hint when the form is submitted (so an empty value is submitteed).
   clearOnFocus:true, // Clear the input hint when the input is focused.
-  persistent:true, // If set to false, the input hint will only be visible the first time an input is seen.
+  persistent:true // If set to false, the input hint will only be visible the first time an input is seen.
 });
 
 // And, as usual, it's totally chainable can be chained.
