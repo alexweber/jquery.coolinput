@@ -41,8 +41,9 @@
       e = c.hint || d.attr(c.source),
       f = c.blurClass;
       
-      if (c.removeSource&&!c.hint)
-        d.removeAttr(c.source);)
+      if (c.removeSource && !c.hint) {
+        d.removeAttr(c.source));
+      }
 
       function g() {
         if (d.val() == "") {
