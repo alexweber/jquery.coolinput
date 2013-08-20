@@ -1,0 +1,25 @@
+{
+  "name": "coolinput",
+  "version": "2.1.0",
+  "title": "jQuery Coolinput",
+  "author": {
+    "name": "Alex Weber",
+    "url": "http://github.com/alexweber"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/mit-license.php"
+    },
+    {
+      "type": "GPL",
+      "url": "http://www.gnu.org/licenses/gpl-3.0.html"
+    }
+  ],
+  "dependencies": {
+    "jquery": ">=1.2.6"
+  },
+  "description": "Coolinput is a straightforward and lightweight input-hint plugin for jQuery. It supports a lot of custom options but has sensible defaults and can be used out of the box.",
+  "homepage": "http://github.com/alexweber/jquery.coolinput",
+  "bugs": "https://github.com/alexweber/jquery.coolinput/issues"
+}
