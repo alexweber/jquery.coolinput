@@ -13,73 +13,73 @@
  *
  */
 ;(function($) {
-	$.fn.coolinput = function(b) {
-		/* Default options */
-		var c = {
-			hint:null,
-			source:"title",
-			blurClass:"blur",
-			iconClass:false,
-			clearOnSubmit:true,
-			clearOnFocus:true,
-			persistent:true,
-			useHtml5:true,
-			removeSource:true
-		};
+  $.fn.coolinput = function(b) {
+    /* Default options */
+    var c = {
+      hint:null,
+      source:"title",
+      blurClass:"blur",
+      iconClass:false,
+      clearOnSubmit:true,
+      clearOnFocus:true,
+      persistent:true,
+      useHtml5:true,
+      removeSource:true
+    };
 
-		if (b && typeof b == "object") {
-			$.extend(c,b);
-		} else {
-			c.hint = b;
-		}
+    if (b && typeof b == "object") {
+      $.extend(c,b);
+    } else {
+      c.hint = b;
+    }
 
-		// check for HTML5 placeholder attribute support
-		c.html5 = c.useHtml5 && ('placeholder' in document.createElement('input'));
+    // check for HTML5 placeholder attribute support
+    c.html5 = c.useHtml5 && ('placeholder' in document.createElement('input'));
 
-		return this.each(function() {
-			var d = $(this),
-			e = c.hint || d.attr(c.source),
-			f = c.blurClass;
-			
-			if (c.removeSource&&!c.hint)
-				d.removeAttr(c.source);)
+    return this.each(function() {
+      var d = $(this),
+      e = c.hint || d.attr(c.source),
+      f = c.blurClass;
+      
+      if (c.removeSource&&!c.hint)
+        d.removeAttr(c.source);)
 
-			function g() {
-				if (d.val() == "") {
-					d.val(e).addClass(f);
-				}
-			}
+      function g() {
+        if (d.val() == "") {
+          d.val(e).addClass(f);
+        }
+      }
 
-			function h() {
-				if (d.val() == e && d.hasClass(f)) {
-					d.val("").removeClass(f);
-				}
-			}
+      function h() {
+        if (d.val() == e && d.hasClass(f)) {
+          d.val("").removeClass(f);
+        }
+      }
 
-			if (e) {
-				// only use coolinput if we don't have HTML5 placeholder support
-				if (!c.html5) {
-					if (c.persistent) {
-						d.blur(g);
-					}
+      if (e) {
+        // only use coolinput if we don't have HTML5 placeholder support
+        if (!c.html5) {
+          if (c.persistent) {
+            d.blur(g);
+          }
 
-					if (c.clearOnFocus) {
-						d.focus(h);
-					}
+          if (c.clearOnFocus) {
+            d.focus(h);
+          }
 
-					if (c.clearOnSubmit) {
-						d.parents("form:first").submit(h);
-					}
+          if (c.clearOnSubmit) {
+            d.parents("form:first").submit(h);
+          }
 
-					if (c.iconClass) {
-						d.addClass(c.iconClass);
-					}
+          if (c.iconClass) {
+            d.addClass(c.iconClass);
+          }
 
-					g();
-				} else {
-					d.attr('placeholder', e);
-				}
-			}
-		})
-	}
+          g();
+        } else {
+          d.attr('placeholder', e);
+        }
+      }
+    })
+  }
 })(jQuery);
